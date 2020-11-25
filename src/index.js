@@ -1,12 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import App from './App';          // import App.js,if extension is js,we ignore
+import LearnJsx from './LearnJsx';
+
+// PWA progressive web application: we can visit the web without connection after first connection
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
     <App />
+    <LearnJsx />
   </React.StrictMode>,
   document.getElementById('root')
 );
