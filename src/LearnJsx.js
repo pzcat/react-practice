@@ -1,6 +1,7 @@
 import React, {Component, Fragment} from 'react';
-import './style.css'
 import NoteItem from './NoteItem';
+import './style.css'
+
 
 class LearnJsx extends Component {
 
@@ -14,6 +15,9 @@ class LearnJsx extends Component {
         'We could import Fragment, instead of a real element, to wrap the elements.',
       ]
     }
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleBtnAdd = this.handleBtnAdd.bind(this);
+    this.handleItemDelete = this.handleItemDelete.bind(this);
   }
 
   render() {
@@ -21,22 +25,28 @@ class LearnJsx extends Component {
       <Fragment>
         <h1>Jsx</h1>
         <div>
-          <label htmlFor="insertArea">Input your note here:</label>
+          <label htmlFor="insertArea">Input your note here:</label><br/>
           <textarea
             id="insertArea"
             className="textarea"
             value={this.state.inputValue}
-            onChange={this.handleInputChange.bind(this)}
+            onChange={this.handleInputChange}
           />
-          <button onClick={this.handleBtnClick.bind(this)}>add note</button>
+          <button onClick={this.handleBtnAdd}>add note</button>
         </div>
 
         <ul>
-          {
-            this.state.list.map((item, index) => {
-              return <NoteItem content={item} />      // pass item in map to defined attribute content                     //<li key={index} onClick={this.handleItemDelete.bind(this, index)}>{item}</li>
-            })
-          }
+          {/*{*/}
+          {/*  // pass item in map to defined attribute content*/}
+          {/*  this.state.list.map((item, index) => {*/}
+          {/*    return <NoteItem*/}
+          {/*      content={item}*/}
+          {/*      index={index}*/}
+          {/*      deleteItem={this.handleItemDelete}*/}
+          {/*    />*/}
+          {/*  })*/}
+          {/*}*/}
+          {this.getNoteItem()}
         </ul>
 
       </Fragment>
@@ -44,26 +54,49 @@ class LearnJsx extends Component {
     )
   }
 
-  handleInputChange(e) {
-    this.setState({
-      inputValue: e.target.value
+  getNoteItem() {
+    return this.state.list.map((item, index) => {
+      return (<NoteItem
+        content={item}
+        index={index}
+        deleteItem={this.handleItemDelete}
+      />)
     })
-    // this.state.inputValue = e.target.value;
   }
 
-  handleBtnClick() {
-    this.setState({
-      list: [...this.state.list, this.state.inputValue],   // ...this.state.list put the origin content into the new list here
+  handleInputChange(e) {
+    // this.setState({
+    //   inputValue: e.target.value
+    // })
+    const value = e.target.value;
+    this.setState(() => ({
+      inputValue: value
+    }));
+
+  }
+
+  handleBtnAdd() {
+    // this.setState({
+    //   list: [...this.state.list, this.state.inputValue],   // ...this.state.list put the origin content into the new list here
+    //   inputValue: ''
+    // })
+    this.setState((prevState) => ({
+      list: [...prevState.list, prevState.inputValue],   // ...this.state.list put the origin content into the new list here
       inputValue: ''
-    })
+    }));
   }
 
   handleItemDelete(index) {
-    const l_delete = [...this.state.list];
-    l_delete.splice(index, 1);
-    this.setState({
-      list: l_delete
-    })
+    // const l_delete = [...this.state.list];
+    // l_delete.splice(index, 1);
+    // this.setState({
+    //   list: l_delete
+    // })
+    this.setState((prevState) => {
+      const list = [...prevState.list];
+      list.splice(index, 1);
+      return {list}
+    });
   }
 }
 
